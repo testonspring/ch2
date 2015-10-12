@@ -16,15 +16,15 @@ public class PostController {
 	@Autowired
 	private PostDao postDao;
 
-	@RequestMapping(value = "/write", method = RequestMethod.GET)
+	@RequestMapping(value = "/write", method = RequestMethod.GET) // ①
 	public String form(Post post) {
 		return "form";
 	}
 
-	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	@RequestMapping(value = "/write", method = RequestMethod.POST) // ②
 	public String write(Post post) {
 		post.setCreatedAt(new Date());
-		return "redirect:/post/" + postDao.save(post).getId();
+		return "redirect:/post/" + postDao.save(post).getId(); // ③
 	}
 
 	@RequestMapping("/{id}")
@@ -53,4 +53,9 @@ public class PostController {
 		return "redirect:/post/" + postDao.save(post).getId();
 	}
 
+	@RequestMapping("/{id}/delete")
+	public String delete(@PathVariable int id) {
+		postDao.delete(id);
+		return "redirect:/post/list";
+	}
 }
